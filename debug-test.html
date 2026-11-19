@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .field-group { margin-bottom: 10px; }
+        .field-label { font-weight: bold; }
+        .field-value { background: #f0f0f0; padding: 5px; margin-left: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Debug Test</h1>
+    
+    <div class="field-group">
+        <span class="field-label">Client ID:</span>
+        <span class="field-value" id="display-MSH4">-</span>
+    </div>
+    
+    <div class="field-group">
+        <span class="field-label">Patient Name:</span>
+        <span class="field-value" id="display-PID5">-</span>
+    </div>
+    
+    <div class="field-group">
+        <span class="field-label">Order Number:</span>
+        <span class="field-value" id="display-MSH10">-</span>
+    </div>
+    
+    <div id="orderRequestsDisplay" style="border: 1px solid #ccc; padding: 10px; margin-top: 20px;">
+        <div style="color: #666; font-style: italic;">No order requests to display</div>
+    </div>
+    
+    <button onclick="testPopulate()">Test Populate</button>
+    <button onclick="testClear()">Clear</button>
+    
+    <script>
+        // Function to populate form data (for external use)
+        function populateFormData(data) {
+            const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
+            if (!parsedData || typeof parsedData !== 'object') return;
+            
+            console.log('Populating form data:', parsedData);
+            
+            // Populate display spans for all basic fields
+            Object.keys(parsedData).forEach(key => {
+                // Skip OBR/OBX fields as they are handled separately
+                if (key.startsWith('OBR') && (key.includes('_OrderCode') || key.includes('_OrderDescription') || key.includes('_OBX'))) {
+                    return;
+                }
+                
+                const element = document.getElementById(`display-${key}`);
+                console.log(`Looking for element: display-${key}`, element);
+                if (element) {
+                    element.textContent = parsedData[key] || '-';
+                    console.log(`Set ${key} to:`, parsedData[key]);
+                } else {
+                    console.warn(`Element not found: display-${key}`);
+                }
+            });
+            
+            // Handle order requests (OBR/OBX data)
+            const orderRequestsContainer = document.getElementById('orderRequestsDisplay');
+            if (orderRequestsContainer) {
+                // Clear existing order requests
+                clearOrderRequests();
+                
+                // Find all OBR indices
+                const obrIndices = Array.from(new Set(Object.keys(parsedData)
+                    .filter(k => /^OBR\d+_OrderCode$/.test(k))
+                    .map(k => k.match(/^OBR(\d+)_OrderCode$/)[1])))
+                    .sort((a, b) => Number(a) - Number(b));
+                
+                console.log('Found OBR indices:', obrIndices);
+                
+                obrIndices.forEach(idx => {
+                    const orderCode = parsedData[`OBR${idx}_OrderCode`] || '';
+                    const orderDescription = parsedData[`OBR${idx}_OrderDescription`] || '';
+                    
+                    console.log(`Processing OBR${idx}: ${orderCode} - ${orderDescription}`);
+                    
+                    // Find all OBX observations for this OBR
+                    const obxNums = Object.keys(parsedData)
+                        .filter(k => k.startsWith(`OBR${idx}_OBX`) && k.match(new RegExp(`^OBR${idx}_OBX(\\d+)_Question$`)))
+                        .map(k => k.match(new RegExp(`^OBR${idx}_OBX(\\d+)_Question$`))[1])
+                        .sort((a, b) => Number(a) - Number(b));
+                    
+                    const observations = obxNums.map(obxNum => ({
+                        question: parsedData[`OBR${idx}_OBX${obxNum}_Question`] || '',
+                        answer: parsedData[`OBR${idx}_OBX${obxNum}_Answer`] || ''
+                    }));
+                    
+                    console.log(`Found ${observations.length} observations for OBR${idx}`);
+                    
+                    // Add the order request to the display
+                    addOrderRequest(orderCode, orderDescription, observations);
+                });
+            }
+        }
+        
+        function addOrderRequest(orderCode, orderDescription, observations = []) {
+            const container = document.getElementById('orderRequestsDisplay');
+            
+            if (!container) {
+                console.warn('Order requests container not found');
+                return;
+            }
+            
+            // Remove the "no orders" message if it exists
+            const noOrdersMsg = container.querySelector('div[style*="color: #666"]');
+            if (noOrdersMsg) {
+                noOrdersMsg.remove();
+            }
+            
+            const orderDiv = document.createElement('div');
+            orderDiv.style.cssText = 'background: #f9f9f9; padding: 10px; margin: 10px 0; border-left: 4px solid #007cba;';
+            
+            orderDiv.innerHTML = `
+                <div style="margin-bottom: 10px;">
+                    <div style="margin-bottom: 5px;">
+                        <strong>Order Code:</strong> ${orderCode || '-'}
+                    </div>
+                    <div>
+                        <strong>Order Description:</strong> ${orderDescription || '-'}
+                    </div>
+                </div>
+                ${observations.length > 0 ? `
+                    <div style="border-top: 1px solid #ddd; padding-top: 10px;">
+                        <h4 style="margin-bottom: 5px;">Observations</h4>
+                        <div>
+                            ${observations.map(obs => `
+                                <div style="background: white; padding: 5px; margin: 5px 0; border: 1px solid #ddd;">
+                                    <div><strong>Question:</strong> ${obs.question || '-'}</div>
+                                    <div><strong>Answer:</strong> ${obs.answer || '-'}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+            `;
+            
+            container.appendChild(orderDiv);
+        }
+        
+        function clearOrderRequests() {
+            const container = document.getElementById('orderRequestsDisplay');
+            if (container) {
+                container.innerHTML = '<div style="color: #666; font-style: italic;">No order requests to display</div>';
+            }
+        }
+        
+        function testPopulate() {
+            const sampleData = {
+                'MSH4': 'AEGIS001',
+                'MSH10': 'ORD-2024-001',
+                'PID5': 'John Doe',
+                'OBR1_OrderCode': 'DRUG-SCREEN-5',
+                'OBR1_OrderDescription': '5-Panel Drug Screen',
+                'OBR1_OBX1_Question': 'Collection method',
+                'OBR1_OBX1_Answer': 'Urine'
+            };
+            
+            populateFormData(sampleData);
+        }
+        
+        function testClear() {
+            document.getElementById('display-MSH4').textContent = '-';
+            document.getElementById('display-PID5').textContent = '-';
+            document.getElementById('display-MSH10').textContent = '-';
+            clearOrderRequests();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - View Only Interface</title>
+    <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+    <div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        <h1>View-Only Interface Demo</h1>
+        
+        <div class="section-card">
+            <h2>Sample Data Display</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                <div class="data-field">
+                    <span class="data-label">Patient Name</span>
+                    <span class="data-value">John Doe</span>
+                </div>
+                <div class="data-field">
+                    <span class="data-label">Date of Birth</span>
+                    <span class="data-value">01/15/1980</span>
+                </div>
+                <div class="data-field">
+                    <span class="data-label">Phone Number</span>
+                    <span class="data-value">(555) 123-4567</span>
+                </div>
+                <div class="data-field">
+                    <span class="data-label">Address</span>
+                    <span class="data-value">123 Main Street, Anytown, ST 12345</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h2>Order Request Example</h2>
+            <div class="order-request">
+                <div style="margin-bottom: 16px;">
+                    <div class="data-field">
+                        <span class="data-label">Order Code</span>
+                        <span class="data-value" style="font-weight: 600;">DRUG-SCREEN-5</span>
+                    </div>
+                    <div class="data-field">
+                        <span class="data-label">Order Description</span>
+                        <span class="data-value">5-Panel Drug Screen</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 12px; color: #374151;">Observations</h4>
+                    <div class="order-observation">
+                        <div class="data-field" style="margin-bottom: 8px;">
+                            <span class="data-label">Question</span>
+                            <span class="data-value">Collection method</span>
+                        </div>
+                        <div class="data-field" style="margin-bottom: 0;">
+                            <span class="data-label">Answer</span>
+                            <span class="data-value" style="font-weight: 600;">Urine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 32px; padding: 16px; background: #f0f9ff; border-radius: 8px; border: 1px solid #bae6fd;">
+            <h3 style="color: #1e40af; margin-bottom: 8px;">Key Features of View-Only Interface:</h3>
+            <ul style="color: #374151; margin: 0; padding-left: 20px;">
+                <li>All edit buttons and form controls removed</li>
+                <li>Clean, readable layout with improved typography</li>
+                <li>Responsive grid system for better mobile viewing</li>
+                <li>Enhanced visual hierarchy with better spacing</li>
+                <li>Print-friendly styling for document generation</li>
+                <li>Maintains JavaScript functionality for data population</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

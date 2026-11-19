@@ -1,5 +1,5 @@
 module.exports = {
-  widgetName: "AEGISOrder",
+  widgetName: "AEGISOrderViewOnly",
   server: "$",
   file: "ClarkEHR_Sandbox",
   uploadScript: "UploadToHTML",

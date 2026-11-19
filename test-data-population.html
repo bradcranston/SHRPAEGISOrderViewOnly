@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Population Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin-bottom: 30px; padding: 20px; border: 1px solid #ccc; }
+        .test-button { margin: 5px; padding: 10px 15px; background: #007cba; color: white; border: none; cursor: pointer; }
+        .test-button:hover { background: #005a8b; }
+        .test-output { background: #f5f5f5; padding: 10px; margin: 10px 0; border: 1px solid #ddd; }
+        .field-group { margin-bottom: 10px; }
+        .field-label { font-weight: bold; color: #333; font-size: 14px; }
+        .field-value { background: #f9f9f9; padding: 8px; margin-left: 10px; border: 1px solid #ddd; }
+        .order-request { background: #f9f9f9; padding: 15px; margin: 10px 0; border-left: 4px solid #007cba; }
+        .order-observation { background: white; padding: 10px; margin: 5px 0; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>Data Population Test</h1>
+    
+    <div class="test-section">
+        <h2>Test Controls</h2>
+        <button class="test-button" onclick="testBasicData()">Test Basic Data Only</button>
+        <button class="test-button" onclick="testOrderData()">Test Order Data Only</button>
+        <button class="test-button" onclick="testFullData()">Test Full Data</button>
+        <button class="test-button" onclick="testCustomData()">Test Custom Data</button>
+        <button class="test-button" onclick="clearAllData()">Clear All Data</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Basic Information</h2>
+        <div class="field-group">
+            <span class="field-label">Client ID:</span>
+            <span class="field-value" id="display-MSH4">-</span>
+        </div>
+        <div class="field-group">
+            <span class="field-label">Order Number:</span>
+            <span class="field-value" id="display-MSH10">-</span>
+        </div>
+        <div class="field-group">
+            <span class="field-label">Patient Name:</span>
+            <span class="field-value" id="display-PID5">-</span>
+        </div>
+        <div class="field-group">
+            <span class="field-label">Date of Birth:</span>
+            <span class="field-value" id="display-PID7">-</span>
+        </div>
+        <div class="field-group">
+            <span class="field-label">Ordering Provider:</span>
+            <span class="field-value" id="display-OBR16">-</span>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Order Requests</h2>
+        <div id="orderRequestsDisplay">
+            <div style="color: #666; font-style: italic;">No order requests to display</div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Output</h2>
+        <div class="test-output" id="testOutput">Ready for testing...</div>
+    </div>
+
+    <script>
+        // Copy the exact functions from the main file
+        function populateFormData(data) {
+            const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
+            if (!parsedData || typeof parsedData !== 'object') return;
+            
+            log('populateFormData called with data:', parsedData);
+            
+            // Enhanced field mapping function to handle multiple formats
+            function findValueForField(data, fieldName) {
+              // Try multiple key formats for better compatibility
+              const possibleKeys = [
+                fieldName, // exact match
+                fieldName.replace(/_/g, '.'), // convert underscores to dots
+                fieldName.replace(/\./g, '_'), // convert dots to underscores
+                fieldName.replace(/\./g, ''), // remove dots
+                fieldName.replace(/_/g, ''), // remove underscores
+              ];
+              
+              for (const key of possibleKeys) {
+                if (Object.prototype.hasOwnProperty.call(data, key)) {
+                  return data[key];
+                }
+              }
+              
+              return undefined;
+            }
+            
+            // Field mapping from original format to display element IDs
+            const fieldMapping = {
+              // Aegis Lab Information
+              'MSH_4': 'MSH4',
+              'MSH_7': 'MSH7', 
+              'MSH_10': 'MSH10',
+              // Patient Information
+              'PID_2': 'PID2',
+              'PID_2_5': 'PID25',
+              'PID_5': 'PID5',
+              'PID_7': 'PID7',
+              'PID_8': 'PID8',
+              'PID_10': 'PID10',
+              'PID_11_address': 'PID11address',
+              'PID_11_address2': 'PID11address2',
+              'PID_11_city': 'PID11city',
+              'PID_11_state': 'PID11state',
+              'PID_11_zip': 'PID11zip',
+              'PID_13': 'PID13',
+              'PID_19': 'PID19',
+              'PID_22': 'PID22',
+              // Provider Information
+              'PV1_8': 'PV18',
+              'OBR_16': 'OBR16',
+              'OBR_7': 'OBR7',
+              'OBR_15': 'OBR15',
+              'OBR_15_1': 'OBR151',
+              'DG1_3': 'DG13',
+              'IN1_47': 'IN147',
+              // Insurance Information
+              'IN1_3': 'IN13',
+              'IN1_4': 'IN14',
+              'IN1_5_address': 'IN15address',
+              'IN1_5_address2': 'IN15address2',
+              'IN1_5_city': 'IN15city',
+              'IN1_5_state': 'IN15state',
+              'IN1_5_zip': 'IN15zip',
+              'IN1_16': 'IN116',
+              'IN1_17': 'IN117',
+              'IN1_18': 'IN118',
+              'IN1_19_address': 'IN119address',
+              'IN1_19_address2': 'IN119address2',
+              'IN1_19_city': 'IN119city',
+              'IN1_19_state': 'IN119state',
+              'IN1_19_zip': 'IN119zip',
+              'IN1_36': 'IN136',
+              'IN1_43': 'IN143',
+              // Guarantor Information
+              'GT1_3': 'GT13',
+              'GT1_5_address': 'GT15address',
+              'GT1_5_address2': 'GT15address2',
+              'GT1_5_city': 'GT15city',
+              'GT1_5_state': 'GT15state',
+              'GT1_5_zip': 'GT15zip',
+              'GT1_6': 'GT16',
+            };
+            
+            // First, try to populate using the field mapping
+            Object.keys(fieldMapping).forEach(originalKey => {
+              const displayId = fieldMapping[originalKey];
+              const element = document.getElementById(`display-${displayId}`);
+              if (element) {
+                const value = findValueForField(parsedData, originalKey);
+                if (value !== undefined) {
+                  element.textContent = value;
+                  log(`Mapped ${originalKey} to display-${displayId}: ${value}`);
+                }
+              }
+            });
+            
+            // Then, try to populate any remaining fields using direct key matching
+            Object.keys(parsedData).forEach(key => {
+              // Skip OBR/OBX fields as they are handled separately
+              if (key.startsWith('OBR') && (key.includes('_OrderCode') || key.includes('_OrderDescription') || key.includes('_OBX'))) {
+                return;
+              }
+              
+              const element = document.getElementById(`display-${key}`);
+              if (element) {
+                element.textContent = parsedData[key] || '-';
+                log(`Direct match ${key}: ${parsedData[key]}`);
+              }
+            });
+            
+            // Handle order requests (OBR/OBX data)
+            const orderRequestsContainer = document.getElementById('orderRequestsDisplay');
+            if (orderRequestsContainer) {
+                // Clear existing order requests
+                clearOrderRequests();
+                
+                // Find all OBR indices
+                const obrIndices = Array.from(new Set(Object.keys(parsedData)
+                    .filter(k => /^OBR\d+_OrderCode$/.test(k))
+                    .map(k => k.match(/^OBR(\d+)_OrderCode$/)[1])))
+                    .sort((a, b) => Number(a) - Number(b));
+                
+                log('Found OBR indices:', obrIndices);
+                
+                obrIndices.forEach(idx => {
+                    const orderCode = parsedData[`OBR${idx}_OrderCode`] || '';
+                    const orderDescription = parsedData[`OBR${idx}_OrderDescription`] || '';
+                    
+                    // Find all OBX observations for this OBR
+                    const obxNums = Object.keys(parsedData)
+                        .filter(k => k.startsWith(`OBR${idx}_OBX`) && k.match(new RegExp(`^OBR${idx}_OBX(\\d+)_Question$`)))
+                        .map(k => k.match(new RegExp(`^OBR${idx}_OBX(\\d+)_Question$`))[1])
+                        .sort((a, b) => Number(a) - Number(b));
+                    
+                    const observations = obxNums.map(obxNum => ({
+                        question: parsedData[`OBR${idx}_OBX${obxNum}_Question`] || '',
+                        answer: parsedData[`OBR${idx}_OBX${obxNum}_Answer`] || ''
+                    }));
+                    
+                    // Add the order request to the display
+                    addOrderRequest(orderCode, orderDescription, observations);
+                });
+            }
+        }
+        
+        function addOrderRequest(orderCode, orderDescription, observations = []) {
+            const container = document.getElementById('orderRequestsDisplay');
+            
+            if (!container) {
+                log('Order requests container not found');
+                return;
+            }
+            
+            // Remove the "no orders" message if it exists
+            const noOrdersMsg = container.querySelector('div[style*="color: #666"]');
+            if (noOrdersMsg) {
+                noOrdersMsg.remove();
+            }
+            
+            const orderDiv = document.createElement('div');
+            orderDiv.className = 'order-request';
+            
+            orderDiv.innerHTML = `
+                <div style="margin-bottom: 10px;">
+                    <div style="margin-bottom: 5px;">
+                        <span class="field-label">Order Code:</span>
+                        <span class="field-value" style="display: inline-block; margin-left: 10px;">${orderCode || '-'}</span>
+                    </div>
+                    <div>
+                        <span class="field-label">Order Description:</span>
+                        <span class="field-value" style="display: inline-block; margin-left: 10px;">${orderDescription || '-'}</span>
+                    </div>
+                </div>
+                ${observations.length > 0 ? `
+                    <div style="border-top: 1px solid #ddd; padding-top: 10px;">
+                        <h4 style="margin-bottom: 5px;">Observations</h4>
+                        <div>
+                            ${observations.map(obs => `
+                                <div class="order-observation">
+                                    <div style="margin-bottom: 5px;">
+                                        <span class="field-label">Question:</span>
+                                        <span class="field-value" style="display: inline-block; margin-left: 10px;">${obs.question || '-'}</span>
+                                    </div>
+                                    <div>
+                                        <span class="field-label">Answer:</span>
+                                        <span class="field-value" style="display: inline-block; margin-left: 10px;">${obs.answer || '-'}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+            `;
+            
+            container.appendChild(orderDiv);
+        }
+        
+        function clearOrderRequests() {
+            const container = document.getElementById('orderRequestsDisplay');
+            if (container) {
+                container.innerHTML = '<div style="color: #666; font-style: italic;">No order requests to display</div>';
+            }
+        }
+        
+        function log(message, data = null) {
+            const output = document.getElementById('testOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}`;
+            
+            if (data) {
+                console.log(logEntry, data);
+                output.innerHTML += `<div>${logEntry} ${JSON.stringify(data)}</div>`;
+            } else {
+                console.log(logEntry);
+                output.innerHTML += `<div>${logEntry}</div>`;
+            }
+            
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        // Test Functions
+        function testBasicData() {
+            log('Testing basic data with underscores (original format)...');
+            const data = {
+                'MSH_4': 'AEGIS001',
+                'MSH_10': 'ORD-2024-001',
+                'PID_5': 'John Doe',
+                'PID_7': '01/15/1980',
+                'OBR_16': 'Dr. Johnson'
+            };
+            populateFormData(data);
+        }
+        
+        function testOrderData() {
+            log('Testing order data only...');
+            const data = {
+                'OBR1_OrderCode': 'DRUG-SCREEN-5',
+                'OBR1_OrderDescription': '5-Panel Drug Screen',
+                'OBR1_OBX1_Question': 'Collection method',
+                'OBR1_OBX1_Answer': 'Urine',
+                'OBR1_OBX2_Question': 'Reason for test',
+                'OBR1_OBX2_Answer': 'Pre-employment'
+            };
+            populateFormData(data);
+        }
+        
+        function testFullData() {
+            log('Testing full data (mixed formats)...');
+            const data = {
+                // Original format with underscores
+                'MSH_4': 'AEGIS001',
+                'MSH_10': 'ORD-2024-001',
+                'PID_5': 'John Doe',
+                'PID_7': '01/15/1980',
+                'OBR_16': 'Dr. Johnson',
+                // New format without underscores
+                'OBR1_OrderCode': 'DRUG-SCREEN-5',
+                'OBR1_OrderDescription': '5-Panel Drug Screen',
+                'OBR1_OBX1_Question': 'Collection method',
+                'OBR1_OBX1_Answer': 'Urine',
+                'OBR1_OBX2_Question': 'Reason for test',
+                'OBR1_OBX2_Answer': 'Pre-employment',
+                'OBR2_OrderCode': 'ALCOHOL-TEST',
+                'OBR2_OrderDescription': 'Alcohol Test'
+            };
+            populateFormData(data);
+        }
+        
+        function testCustomData() {
+            log('Testing custom data...');
+            const userInput = prompt('Enter JSON data (or press Cancel for sample):');
+            
+            if (userInput === null) {
+                // User cancelled, use sample data
+                testFullData();
+                return;
+            }
+            
+            try {
+                const data = JSON.parse(userInput);
+                populateFormData(data);
+            } catch (e) {
+                log('Error parsing JSON:', e.message);
+                alert('Invalid JSON format. Please check your input.');
+            }
+        }
+        
+        function clearAllData() {
+            log('Clearing all data...');
+            
+            // Clear basic fields
+            const basicFields = ['MSH4', 'MSH10', 'PID5', 'PID7', 'OBR16'];
+            basicFields.forEach(field => {
+                const element = document.getElementById(`display-${field}`);
+                if (element) {
+                    element.textContent = '-';
+                }
+            });
+            
+            // Clear order requests
+            clearOrderRequests();
+            
+            // Clear log
+            document.getElementById('testOutput').innerHTML = 'Ready for testing...';
+        }
+        
+        // Make functions available globally
+        window.populateFormData = populateFormData;
+        window.populateDisplayData = populateFormData;
+        window.addOrderRequest = addOrderRequest;
+        window.clearOrderRequests = clearOrderRequests;
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            log('Test page loaded successfully');
+        });
+    </script>
+</body>
+</html>

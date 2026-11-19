@@ -2,527 +2,1033 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Drug Test Order</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drug Test Order - View Only</title>
+    <style>
+      /* Reset and Base Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* View-Only Interface Styles */
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-family: 'Arial', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #1f2937;
+        background-color: #f9fafb;
+        margin: 0;
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      /* Container and layout */
+      .container {
+        max-width: 1024px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+
+      .space-y-6 > * + * {
+        margin-top: 24px;
+      }
+
+      .space-y-4 > * + * {
+        margin-top: 16px;
+      }
+
+      .space-y-3 > * + * {
+        margin-top: 12px;
+      }
+
+      .space-y-2 > * + * {
+        margin-top: 8px;
+      }
+
+      /* Grid system */
+      .grid {
+        display: grid;
+        gap: 16px;
+      }
+
+      .grid-cols-1 {
+        grid-template-columns: repeat(1, 1fr);
+      }
+
+      .grid-cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      /* View-Only Interface Styles */
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-family: 'Arial', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #1f2937;
+        background-color: #f9fafb;
+        margin: 0;
+        overflow-x: hidden;
+      }
+
+      /* Card styling */
+      .section-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        padding: 24px;
+        transition: all 0.2s ease;
+        border: 1px solid #e5e7eb;
+      }
+
+      .section-card:hover {
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Field display styling */
+      .field-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .field-label {
+        font-size: 14px;
+        font-weight: 500;
+        color: #6b7280;
+        margin-bottom: 4px;
+      }
+
+      .field-value {
+        font-size: 16px;
+        color: #1f2937;
+        background-color: #f9fafb;
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #e5e7eb;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+
+      /* Order request styling */
+      .order-request {
+        background: #f9fafb;
+        border-radius: 8px;
+        padding: 16px;
+        border-left: 4px solid #3b82f6;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .order-observation {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        padding: 16px;
+        margin-bottom: 12px;
+      }
+
+      /* Utility classes */
+      .text-center {
+        text-align: center;
+      }
+
+      .font-bold {
+        font-weight: 700;
+      }
+
+      .font-semibold {
+        font-weight: 600;
+      }
+
+      .font-medium {
+        font-weight: 500;
+      }
+
+      .text-blue-800 {
+        color: #1e40af;
+      }
+
+      .text-gray-800 {
+        color: #1f2937;
+      }
+
+      .text-gray-600 {
+        color: #6b7280;
+      }
+
+      .text-gray-500 {
+        color: #9ca3af;
+      }
+
+      .text-gray-900 {
+        color: #111827;
+      }
+
+      .bg-white {
+        background-color: #fff;
+      }
+
+      .bg-gray-50 {
+        background-color: #f9fafb;
+      }
+
+      .border-b {
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .border-t {
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .border {
+        border: 1px solid #e5e7eb;
+      }
+
+      .rounded-lg {
+        border-radius: 8px;
+      }
+
+      .rounded {
+        border-radius: 4px;
+      }
+
+      .shadow-md {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .p-6 {
+        padding: 24px;
+      }
+
+      .p-4 {
+        padding: 16px;
+      }
+
+      .p-3 {
+        padding: 12px;
+      }
+
+      .mb-6 {
+        margin-bottom: 24px;
+      }
+
+      .mb-4 {
+        margin-bottom: 16px;
+      }
+
+      .mb-3 {
+        margin-bottom: 12px;
+      }
+
+      .mb-2 {
+        margin-bottom: 8px;
+      }
+
+      .mb-1 {
+        margin-bottom: 4px;
+      }
+
+      .pt-3 {
+        padding-top: 12px;
+      }
+
+      .pb-2 {
+        padding-bottom: 8px;
+      }
+
+      .italic {
+        font-style: italic;
+      }
+
+      /* Done button styling */
+      .done-button {
+        background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 16px 32px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 6px rgba(16, 185, 129, 0.25);
+        min-width: 120px;
+      }
+
+      .done-button:hover {
+        background: linear-gradient(135deg, #047857 0%, #059669 100%);
+        box-shadow: 0 6px 12px rgba(16, 185, 129, 0.35);
+        transform: translateY(-2px);
+      }
+
+      .done-button:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(16, 185, 129, 0.25);
+      }
+
+      .done-button:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      /* Enhanced typography for better readability */
+      p {
+        color: #374151;
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        color: #fff;
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 1.2;
+        margin: 0 0 24px;
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+      }
+
+      h2 {
+        color: #1f2937;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.3;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #e5e7eb;
+      }
+
+      /* Section styling for better visual hierarchy */
+      .section-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+        margin-bottom: 24px;
+        border: 1px solid #e5e7eb;
+        transition: box-shadow 0.3s ease;
+      }
+
+      .section-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      /* Data display improvements */
+      .data-field {
+        margin-bottom: 16px;
+      }
+
+      .data-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        color: #6b7280;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+      }
+
+      .data-value {
+        display: block;
+        font-size: 16px;
+        font-weight: 400;
+        color: #1f2937;
+        background-color: #f9fafb;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        min-height: 24px;
+        word-wrap: break-word;
+      }
+
+      /* Order requests specific styling */
+      .order-request {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-left: 4px solid #3b82f6;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .order-observation {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        padding: 16px;
+        margin-bottom: 12px;
+      }
+
+      /* Responsive grid improvements */
+      @media (max-width: 768px) {
+        .grid-cols-2,
+        .grid-cols-3 {
+          grid-template-columns: 1fr !important;
+        }
+        
+        h1 {
+          font-size: 24px;
+          padding: 16px;
+        }
+        
+        .section-card {
+          padding: 16px;
+          margin-bottom: 16px;
+        }
+
+        .container {
+          padding: 16px;
+        }
+      }
+
+      /* Print styles for better document printing */
+      @media print {
+        body {
+          background-color: #fff;
+          color: #000;
+        }
+        
+        .section-card {
+          box-shadow: none;
+          border: 1px solid #ccc;
+          page-break-inside: avoid;
+        }
+        
+        h1 {
+          background: #000;
+          color: #fff;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    </style>
   </head>
-  <body class="bg-gray-50 min-h-screen">
-    <div class="max-w-3xl mx-auto p-6">
-      <h1 class="text-3xl font-bold mb-6 text-center">Aegis Drug Test Order</h1>
-      <form id="orderForm" class="space-y-4">
-        <div id="aegisLabSection" class="bg-white rounded shadow p-4 grid grid-cols-1 md:grid-cols-2 gap-4 relative">
-          <h2 class="text-xl font-semibold mb-2 col-span-full">Aegis Lab Information</h2>
-          <button type="button" class="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-xs" onclick="window.toggleSectionEdit('aegisLabSection')">Edit</button>
-          <div class="section-display">
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Client ID:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-MSH4"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Date and Time:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-MSH7"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Order Number:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-MSH10"></span></div>
+  <body>
+    <div class="container">
+      <h1>Aegis Drug Test Order - View Only</h1>
+      <div class="space-y-6">
+        <!-- Aegis Lab Information Section -->
+        <div class="section-card">
+          <h2>Aegis Lab Information</h2>
+          <div class="grid grid-cols-2">
+            <div class="space-y-3">
+              <div class="field-group">
+                <span class="field-label">Client ID</span>
+                <span class="field-value" id="display-MSH4">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Date and Time</span>
+                <span class="field-value" id="display-MSH7">-</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="field-group">
+                <span class="field-label">Order Number</span>
+                <span class="field-value" id="display-MSH10">-</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div id="patientSection" class="bg-white rounded shadow p-4 grid grid-cols-1 md:grid-cols-2 gap-4 relative">
-          <h2 class="text-xl font-semibold mb-2 col-span-full">Patient Information</h2>
-          <button type="button" class="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-xs" onclick="window.toggleSectionEdit('patientSection')">Edit</button>
-          <div class="section-display">
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Patient ID:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-PID2"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Patient ID Type:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-PID25"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Patient Name:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-PID5"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">DOB:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-PID7"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Sex:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-PID8"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Race:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-PID10"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Address:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-PID11address"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Address 2:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-PID11address2"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">City:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-PID11city"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">State:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-PID11state"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Zip Code:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-PID11zip"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Phone Number:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-PID13"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">SSN:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-PID19"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Ethnic Group:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-PID22"></span></div>
+
+        <!-- Patient Information Section -->
+        <div class="section-card">
+          <h2>Patient Information</h2>
+          <div class="grid grid-cols-3">
+            <div class="space-y-3">
+              <div class="field-group">
+                <span class="field-label">Patient ID</span>
+                <span class="field-value" id="display-PID2">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Patient Name</span>
+                <span class="field-value" id="display-PID5">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Date of Birth</span>
+                <span class="field-value" id="display-PID7">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Sex</span>
+                <span class="field-value" id="display-PID8">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Race</span>
+                <span class="field-value" id="display-PID10">-</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="field-group">
+                <span class="field-label">Address</span>
+                <span class="field-value" id="display-PID11address">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Address 2</span>
+                <span class="field-value" id="display-PID11address2">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">City</span>
+                <span class="field-value" id="display-PID11city">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">State</span>
+                <span class="field-value" id="display-PID11state">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Zip Code</span>
+                <span class="field-value" id="display-PID11zip">-</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="field-group">
+                <span class="field-label">Phone Number</span>
+                <span class="field-value" id="display-PID13">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">SSN</span>
+                <span class="field-value" id="display-PID19">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Ethnic Group</span>
+                <span class="field-value" id="display-PID22">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Patient ID Type</span>
+                <span class="field-value" id="display-PID25">-</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div id="providerSection" class="bg-white rounded shadow p-4 grid grid-cols-1 md:grid-cols-2 gap-4 relative">
-          <h2 class="text-xl font-semibold mb-2 col-span-full">Provider & Billing</h2>
-          <button type="button" class="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-xs" onclick="window.toggleSectionEdit('providerSection')">Edit</button>
-          <div class="section-display">
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Referring Doctor:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-PV18"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Ordering Provider:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-OBR16"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Collection Date/Time:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-OBR7"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Specimen Source:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-OBR15"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Specimen Matrix Code:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-OBR151"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Bill/Diagnosis Code:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-DG13"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Bill Type:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN147"></span></div>
+
+        <!-- Provider & Billing Section -->
+        <div class="section-card">
+          <h2>Provider & Billing Information</h2>
+          <div class="grid grid-cols-2">
+            <div class="space-y-3">
+              <div class="field-group">
+                <span class="field-label">Referring Doctor</span>
+                <span class="field-value" id="display-PV18">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Ordering Provider</span>
+                <span class="field-value" id="display-OBR16">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Collection Date/Time</span>
+                <span class="field-value" id="display-OBR7">-</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="field-group">
+                <span class="field-label">Specimen Source</span>
+                <span class="field-value" id="display-OBR15">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Specimen Matrix Code</span>
+                <span class="field-value" id="display-OBR151">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Bill/Diagnosis Code</span>
+                <span class="field-value" id="display-DG13">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Bill Type</span>
+                <span class="field-value" id="display-IN147">-</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div id="insuranceSection" class="bg-white rounded shadow p-4 grid grid-cols-1 md:grid-cols-2 gap-4 relative">
-          <h2 class="text-xl font-semibold mb-2 col-span-full">Insurance</h2>
-          <button type="button" class="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-xs" onclick="window.toggleSectionEdit('insuranceSection')">Edit</button>
-          <div class="section-display">
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Company ID:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN13"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Company Name:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN14"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Company Address:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN15address"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Address 2:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN15address2"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">City:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN15city"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">State:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN15state"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Zip Code:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN15zip"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Insured Name:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN116"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Relationship to Patient:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN117"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Insured's DOB:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN118"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Insured's Address:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN119address"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Address 2:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN119address2"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">City:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN119city"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">State:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN119state"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Zip Code:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN119zip"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Policy Number:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN136"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Insured's Sex:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-IN143"></span></div>
+
+        <!-- Insurance Section -->
+        <div class="section-card">
+          <h2>Insurance Information</h2>
+          <div class="grid grid-cols-3">
+            <div class="space-y-3">
+              <div class="field-group">
+                <span class="field-label">Company ID</span>
+                <span class="field-value" id="display-IN13">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Company Name</span>
+                <span class="field-value" id="display-IN14">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Company Address</span>
+                <span class="field-value" id="display-IN15address">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Address 2</span>
+                <span class="field-value" id="display-IN15address2">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">City</span>
+                <span class="field-value" id="display-IN15city">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">State</span>
+                <span class="field-value" id="display-IN15state">-</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="field-group">
+                <span class="field-label">Zip Code</span>
+                <span class="field-value" id="display-IN15zip">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Insured Name</span>
+                <span class="field-value" id="display-IN116">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Relationship to Patient</span>
+                <span class="field-value" id="display-IN117">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Insured's DOB</span>
+                <span class="field-value" id="display-IN118">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Insured's Address</span>
+                <span class="field-value" id="display-IN119address">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Address 2</span>
+                <span class="field-value" id="display-IN119address2">-</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="field-group">
+                <span class="field-label">City</span>
+                <span class="field-value" id="display-IN119city">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">State</span>
+                <span class="field-value" id="display-IN119state">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Zip Code</span>
+                <span class="field-value" id="display-IN119zip">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Policy Number</span>
+                <span class="field-value" id="display-IN136">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Insured's Sex</span>
+                <span class="field-value" id="display-IN143">-</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div id="guarantorSection" class="bg-white rounded shadow p-4 grid grid-cols-1 md:grid-cols-2 gap-4 relative">
-          <h2 class="text-xl font-semibold mb-2 col-span-full">Guarantor</h2>
-          <button type="button" class="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-xs" onclick="toggleSectionEdit('guarantorSection')">Edit</button>
-          <div class="section-display">
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Name:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-GT13"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Address:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-GT15address"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Address 2:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-GT15address2"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">City:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-GT15city"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">State:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-GT15state"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Zip Code:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-GT15zip"></span></div>
-            <div class="flex items-start mb-1"><span class="font-semibold min-w-[180px]">Phone Number:</span> <span class="bg-gray-100 rounded px-2 py-1 ml-2 text-gray-800" id="display-GT16"></span></div>
+
+        <!-- Guarantor Section -->
+        <div class="section-card">
+          <h2>Guarantor Information</h2>
+          <div class="grid grid-cols-2">
+            <div class="space-y-3">
+              <div class="field-group">
+                <span class="field-label">Name</span>
+                <span class="field-value" id="display-GT13">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Address</span>
+                <span class="field-value" id="display-GT15address">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Address 2</span>
+                <span class="field-value" id="display-GT15address2">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">City</span>
+                <span class="field-value" id="display-GT15city">-</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="field-group">
+                <span class="field-label">State</span>
+                <span class="field-value" id="display-GT15state">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Zip Code</span>
+                <span class="field-value" id="display-GT15zip">-</span>
+              </div>
+              <div class="field-group">
+                <span class="field-label">Phone Number</span>
+                <span class="field-value" id="display-GT16">-</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div id="obrContainer"></div>
-        <button type="button" onclick="addOBR()" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">Add Order Request</button>
-        <!-- OBR/OBX dynamic sections -->
-        <template id="obrTemplate">
-          <div class="bg-white rounded shadow p-6 mt-6 obr-section">
-            <h2 class="text-lg font-semibold mb-4">Order Request
-              <span class="text-red-500 ml-2 cursor-pointer font-normal text-sm" onclick="this.closest('.obr-section').remove()">Remove</span>
-            </h2>
-            <label class="block mb-2">Order Code <span class="text-red-500">*</span>
-              <input name="OrderCode" class="order-code-input mt-1 block w-full border border-gray-300 rounded px-3 py-2" placeholder="Type to search..." autocomplete="off" />
-              <div class="order-code-dropdown hidden absolute z-50 bg-white border border-gray-300 rounded shadow max-h-60 overflow-y-auto w-full"></div>
-            </label>
-            <label class="block mb-2">Order Description <span class="text-red-500">*</span>
-              <input name="OrderDescription" class="order-desc-input mt-1 block w-full border border-gray-300 rounded px-3 py-2 bg-gray-100" readonly />
-            </label>
-            <div class="obxContainer"></div>
-            <button type="button" onclick="addOBX(this)" class="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700 mt-2">Add Observation</button>
+
+        <!-- Order Requests Section -->
+        <div class="section-card">
+          <h2>Order Requests</h2>
+          <div id="orderRequestsDisplay" class="space-y-4">
+            <div class="text-gray-500 italic">No order requests to display</div>
           </div>
-        </template>
-        <template id="obxTemplate">
-          <div class="bg-gray-100 rounded p-4 mt-4 obx-section">
-            <h3 class="text-md font-semibold mb-2">Observation
-              <span class="text-red-500 ml-2 cursor-pointer font-normal text-sm" onclick="this.closest('.obx-section').remove()">Remove</span>
-            </h3>
-            <label class="block mb-2">Observation Question <span class="text-red-500">*</span>
-              <input name="Question" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-            </label>
-            <label class="block mb-2">Observation Answer <span class="text-red-500">*</span>
-              <input name="Answer" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-            </label>
-          </div>
-        </template>
-        <button type="submit" class="w-full bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700 mt-2">Submit Order</button>
-        
-        <!-- Cancel Order Button -->
-        <button type="button" onclick="cancelLabOrder()" class="w-full bg-red-600 text-white px-3 py-2 rounded hover:bg-red-700 mt-3 border-2 border-red-700">Cancel Order</button>
-        
-        <!-- Validation error message -->
-        <div id="validationError" class="mt-2 p-3 bg-red-100 border border-red-400 text-red-700 rounded hidden">
-          <div id="validationErrorMessage"></div>
         </div>
-      </form>
-    </div>
-    <!-- Modal for editing sections -->
-    <div id="editModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden">
-      <div class="bg-white rounded shadow-lg p-6 w-full max-w-lg relative max-h-[90vh] overflow-y-auto">
-        <button id="closeModalBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl">&times;</button>
-        <h2 id="modalTitle" class="text-xl font-semibold mb-4"></h2>
-        <div id="modalContent"></div>
-        <button id="saveModalBtn" class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Save</button>
+
+        <!-- Done Button Section -->
+        <div class="section-card text-center">
+          <button 
+            id="doneButton" 
+            class="done-button"
+            onclick="callFileMakerScript('CloseLabOrder')"
+            type="button"
+          >
+            Done
+          </button>
+        </div>
       </div>
     </div>
-    <script type="module">
-      import orderCodes from './src/ordercodes.json';
-      import aoeDropdowns from './src/aoedropdowns.json';
-      import aoeQuestions from './src/aoequestions.json';
+    
+    <!-- Enhanced script with all functionality inline -->
+    <script>
+      // View-Only Interface JavaScript
+      // This file provides basic functionality for displaying data in the view-only interface
 
-      let obrCount = 0;
-      function addOBR() {
-        const template = document.getElementById('obrTemplate');
-        const clone = template.content.cloneNode(true);
-        const obrSection = clone.querySelector('.obr-section');
-        const orderCodeInput = clone.querySelector('.order-code-input');
-        const orderDescInput = clone.querySelector('.order-desc-input');
-        const dropdown = clone.querySelector('.order-code-dropdown');
-        const addObxBtn = clone.querySelector('button[onclick^="addOBX"]');
-        let filteredCodes = orderCodes;
-        let currentOrderCode = '';
-        let aoeForOrder = [];
-        let obxCount = 0;
-
-        // Hide Add OBX button initially
-        addObxBtn.style.display = 'none';
-
-        function updateAddObxBtn() {
-          addObxBtn.style.display = (currentOrderCode && obxCount < aoeForOrder.length) ? '' : 'none';
+      // Function to populate form data (for external use)
+      function populateFormData(data) {
+        const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
+        if (!parsedData || typeof parsedData !== 'object') return;
+        
+        // Enhanced field mapping function to handle multiple formats
+        function findValueForField(data, fieldName) {
+          // Try multiple key formats for better compatibility
+          const possibleKeys = [
+            fieldName, // exact match
+            fieldName.replace(/_/g, '.'), // convert underscores to dots
+            fieldName.replace(/\./g, '_'), // convert dots to underscores
+            fieldName.replace(/\./g, ''), // remove dots
+            fieldName.replace(/_/g, ''), // remove underscores
+          ];
+          
+          for (const key of possibleKeys) {
+            if (Object.prototype.hasOwnProperty.call(data, key)) {
+              return data[key];
+            }
+          }
+          
+          return undefined;
         }
-
-        orderCodeInput.addEventListener('input', function() {
-          const val = this.value.trim().toLowerCase();
-          filteredCodes = orderCodes.filter(o =>
-            o.orderCode.toLowerCase().includes(val) ||
-            o.orderDesc.toLowerCase().includes(val)
-          );
-          renderDropdown();
-          addObxBtn.style.display = 'none';
-          orderDescInput.value = '';
-          currentOrderCode = '';
-          obrSection.querySelector('.obxContainer').innerHTML = '';
-          obxCount = 0;
-          aoeForOrder = [];
+        
+        // Field mapping from original format to display element IDs
+        const fieldMapping = {
+          // Aegis Lab Information
+          'MSH_4': 'MSH4',
+          'MSH_7': 'MSH7', 
+          'MSH_10': 'MSH10',
+          // Patient Information
+          'PID_2': 'PID2',
+          'PID_2_5': 'PID25',
+          'PID_5': 'PID5',
+          'PID_7': 'PID7',
+          'PID_8': 'PID8',
+          'PID_10': 'PID10',
+          'PID_11_address': 'PID11address',
+          'PID_11_address2': 'PID11address2',
+          'PID_11_city': 'PID11city',
+          'PID_11_state': 'PID11state',
+          'PID_11_zip': 'PID11zip',
+          'PID_13': 'PID13',
+          'PID_19': 'PID19',
+          'PID_22': 'PID22',
+          // Provider Information
+          'PV1_8': 'PV18',
+          'OBR_16': 'OBR16',
+          'OBR_7': 'OBR7',
+          'OBR_15': 'OBR15',
+          'OBR_15_1': 'OBR151',
+          'DG1_3': 'DG13',
+          'IN1_47': 'IN147',
+          // Insurance Information
+          'IN1_3': 'IN13',
+          'IN1_4': 'IN14',
+          'IN1_5_address': 'IN15address',
+          'IN1_5_address2': 'IN15address2',
+          'IN1_5_city': 'IN15city',
+          'IN1_5_state': 'IN15state',
+          'IN1_5_zip': 'IN15zip',
+          'IN1_16': 'IN116',
+          'IN1_17': 'IN117',
+          'IN1_18': 'IN118',
+          'IN1_19_address': 'IN119address',
+          'IN1_19_address2': 'IN119address2',
+          'IN1_19_city': 'IN119city',
+          'IN1_19_state': 'IN119state',
+          'IN1_19_zip': 'IN119zip',
+          'IN1_36': 'IN136',
+          'IN1_43': 'IN143',
+          // Guarantor Information
+          'GT1_3': 'GT13',
+          'GT1_5_address': 'GT15address',
+          'GT1_5_address2': 'GT15address2',
+          'GT1_5_city': 'GT15city',
+          'GT1_5_state': 'GT15state',
+          'GT1_5_zip': 'GT15zip',
+          'GT1_6': 'GT16',
+        };
+        
+        // First, try to populate using the field mapping
+        Object.keys(fieldMapping).forEach(originalKey => {
+          const displayId = fieldMapping[originalKey];
+          const element = document.getElementById(`display-${displayId}`);
+          if (element) {
+            const value = findValueForField(parsedData, originalKey);
+            if (value !== undefined) {
+              element.textContent = value;
+            }
+          }
         });
-        orderCodeInput.addEventListener('focus', renderDropdown);
-        orderCodeInput.addEventListener('blur', () => setTimeout(() => dropdown.classList.add('hidden'), 200));
-        function renderDropdown() {
-          dropdown.innerHTML = '';
-          if (!filteredCodes.length) {
-            dropdown.classList.add('hidden');
+        
+        // Then, try to populate any remaining fields using direct key matching
+        Object.keys(parsedData).forEach(key => {
+          // Skip OBR/OBX fields as they are handled separately
+          if (key.startsWith('OBR') && (key.includes('_OrderCode') || key.includes('_OrderDescription') || key.includes('_OBX'))) {
             return;
           }
-          filteredCodes.forEach(code => {
-            const item = document.createElement('div');
-            item.className = 'px-3 py-2 cursor-pointer hover:bg-blue-100';
-            item.textContent = `${code.orderCode} — ${code.orderDesc}`;
-            item.onclick = () => {
-              orderCodeInput.value = code.orderCode;
-              orderDescInput.value = code.orderDesc;
-              dropdown.classList.add('hidden');
-              currentOrderCode = code.orderCode;
-              // Find all AOE questions for this orderCode
-              aoeForOrder = aoeQuestions.filter(q => q.orderCode === currentOrderCode);
-              // Remove all OBX
-              obrSection.querySelector('.obxContainer').innerHTML = '';
-              obxCount = 0;
-              // Auto-add required OBX for this orderCode
-              aoeForOrder.filter(q => q.required === 'R').forEach(aoeObj => {
-                addOBXForAoe(aoeObj);
-              });
-              updateAddObxBtn();
-            };
-            dropdown.appendChild(item);
-          });
-          dropdown.classList.remove('hidden');
-        }
-
-        // Add OBX for a specific aoeQuestion object
-        function addOBXForAoe(aoeObj) {
-          const obxContainer = obrSection.querySelector('.obxContainer');
-          const obxTemplate = document.getElementById('obxTemplate');
-          const obxClone = obxTemplate.content.cloneNode(true);
-          const obxSection = obxClone.querySelector('.obx-section');
-          obxSection.setAttribute('data-aoeid', aoeObj.aoeId);
-          // Remove all children from obxSection to avoid template leftovers
-          obxSection.innerHTML = '';
-          // Question label/input
-          const questionLabel = document.createElement('label');
-          questionLabel.className = 'block mb-2';
-          questionLabel.textContent = 'Observation Question';
-          const questionInput = document.createElement('input');
-          questionInput.name = 'Question';
-          questionInput.className = 'mt-1 block w-full border border-gray-300 rounded px-3 py-2 bg-gray-100';
-          questionInput.value = aoeObj.aoeQuestion;
-          questionInput.readOnly = true;
-          questionLabel.appendChild(questionInput);
-          // Answer label/input
-          const answerLabel = document.createElement('label');
-          answerLabel.className = 'block mb-2 relative';
-          answerLabel.textContent = 'Observation Answer';
-          let answerInput;
-          if (aoeObj.dropdowns === 'Y') {
-            answerInput = document.createElement('input');
-            answerInput.name = 'Answer';
-            answerInput.className = 'mt-1 block w-full border border-gray-300 rounded px-3 py-2';
-            answerInput.placeholder = 'Type to search...';
-            answerInput.autocomplete = 'off';
-            const answerDropdown = document.createElement('div');
-            answerDropdown.className = 'aoe-answer-dropdown hidden absolute z-50 bg-white border border-gray-300 rounded shadow max-h-60 overflow-y-auto w-full';
-            let filteredAnswers = aoeDropdowns.filter(a => a.orderCode === currentOrderCode && a.aoeId === aoeObj.aoeId).map(a => a.aoeDropdown);
-            function renderAnswerDropdown() {
-              answerDropdown.innerHTML = '';
-              if (!filteredAnswers.length) {
-                answerDropdown.classList.add('hidden');
-                return;
-              }
-              filteredAnswers.forEach(a => {
-                const item = document.createElement('div');
-                item.className = 'px-3 py-2 cursor-pointer hover:bg-blue-100';
-                item.textContent = a;
-                item.onclick = () => {
-                  answerInput.value = a;
-                  answerDropdown.classList.add('hidden');
-                };
-                answerDropdown.appendChild(item);
-              });
-              answerDropdown.classList.remove('hidden');
-            }
-            answerInput.addEventListener('input', function() {
-              const val = this.value.trim().toLowerCase();
-              filteredAnswers = aoeDropdowns.filter(a => a.orderCode === currentOrderCode && a.aoeId === aoeObj.aoeId && a.aoeDropdown.toLowerCase().includes(val)).map(a => a.aoeDropdown);
-              renderAnswerDropdown();
-            });
-            answerInput.addEventListener('focus', renderAnswerDropdown);
-            answerInput.addEventListener('blur', () => setTimeout(() => answerDropdown.classList.add('hidden'), 200));
-            answerLabel.appendChild(answerInput);
-            answerLabel.appendChild(answerDropdown);
-          } else {
-            answerInput = document.createElement('input');
-            answerInput.name = 'Answer';
-            answerInput.className = 'mt-1 block w-full border border-gray-300 rounded px-3 py-2';
-            answerLabel.appendChild(answerInput);
+          
+          const element = document.getElementById(`display-${key}`);
+          if (element) {
+            element.textContent = parsedData[key] || '-';
           }
-          obxSection.appendChild(questionLabel);
-          obxSection.appendChild(answerLabel);
-          obxContainer.appendChild(obxSection);
-          obxCount++;
-        }
-
-        // Add OBX for next available (non-required) aoe
-        addObxBtn.onclick = function() {
-          // Find next non-required aoe not already added
-          const addedAoeIds = Array.from(obrSection.querySelectorAll('.obx-section')).map(s => s.getAttribute('data-aoeid'));
-          const nextAoe = aoeForOrder.find(q => q.required !== 'R' && !addedAoeIds.includes(q.aoeId));
-          if (nextAoe) {
-            addOBXForAoe(nextAoe);
-            updateAddObxBtn();
-          }
-        };
-
-        document.getElementById('obrContainer').appendChild(clone);
-      }
-      window.addOBR = addOBR;
-
-      // Remove old addOBX
-      window.addOBX = function() {};
-
-      function toggleSectionEdit(sectionId) {
-        const section = document.getElementById(sectionId);
-        const modalTitle = document.getElementById('modalTitle');
-        const modalContent = document.getElementById('modalContent');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const saveModalBtn = document.getElementById('saveModalBtn');
-
-        // Clear previous content
-        modalTitle.textContent = '';
-        modalContent.innerHTML = '';
-
-        // Set modal title and content based on section
-        switch (sectionId) {
-          case 'aegisLabSection':
-            modalTitle.textContent = 'Edit Aegis Lab Information';
-            modalContent.innerHTML = `
-              <label class="block mb-2">Client ID
-                <input name="MSH.4" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Date and Time
-                <input name="MSH.7" type="datetime-local" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 text-sm appearance-none h-[32px]" />
-              </label>
-            `;
-            break;
-          case 'patientSection':
-            modalTitle.textContent = 'Edit Patient Information';
-            modalContent.innerHTML = `
-            <label class="block mb-2">Patient ID
-              <input name="PID.2" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-            </label>
-            <label class="block mb-2">Patient Name
-              <input name="PID.5" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-            </label>
-              <label class="block mb-2">Address
-                <input name="PID.11_address" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" placeholder="Street Address" />
-              </label>
-              <label class="block mb-2">Address 2
-                <input name="PID.11_address2" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" placeholder="Apt, Suite, etc." />
-              </label>
-              <label class="block mb-2">City
-                <input name="PID.11_city" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">State
-                <input name="PID.11_state" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Zip Code
-                <input name="PID.11_zip" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Phone Number
-                <input name="PID.13" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">DOB
-                <input name="PID.7" type="date" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 text-sm appearance-none h-[32px]" />
-              </label>
-              <label class="block mb-2">Administrative Sex
-                <select name="PID.8" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 text-sm appearance-none bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option value="">Select</option>
-                  <option value="M">Male</option>
-                  <option value="F">Female</option>
-                  <option value="O">Other</option>
-                </select>
-              </label>
-              <label class="block mb-2">Race
-                <input name="PID.10" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">SSN
-                <input name="PID.19" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Ethnic Group
-                <input name="PID.22" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-            `;
-            break;
-          case 'providerSection':
-            modalTitle.textContent = 'Edit Provider & Billing';
-            modalContent.innerHTML = `
-              <label class="block mb-2">Referring Doctor
-                <input name="PV1.8" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Ordering Provider
-                <input name="OBR.16" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Bill Codes/Diagnosis Code
-                <input name="DG1.3" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Bill Type
-                <select name="IN1.47" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option value="">Select</option>
-                  <option value="C">Direct Bill (C)</option>
-                  <option value="P">Patient Bill (P)</option>
-                  <option value="T">Third Party (T)</option>
-                </select>
-              </label>
-            `;
-            break;
-          case 'insuranceSection':
-            modalTitle.textContent = 'Edit Insurance';
-            modalContent.innerHTML = `
-              <label class="block mb-2">Insurance Company ID
-                <input name="IN1.3" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Insurance Company Name
-                <input name="IN1.4" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Insurance Company Address
-                <input name="IN1.5_address" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" placeholder="Street Address" />
-              </label>
-              <label class="block mb-2">Address 2
-                <input name="IN1.5_address2" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" placeholder="Apt, Suite, etc." />
-              </label>
-              <label class="block mb-2">City
-                <input name="IN1.5_city" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">State
-                <input name="IN1.5_state" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Zip Code
-                <input name="IN1.5_zip" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Insured Name
-                <input name="IN1.16" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Insured's Relationship to Patient
-                <select name="IN1.17" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option value="">Select</option>
-                  <option value="SEL">Self</option>
-                  <option value="SPO">Spouse</option>
-                  <option value="CHD">Child</option>
-                  <option value="OTH">Other</option>
-                </select>
-              </label>
-              <label class="block mb-2">Insured's DOB
-                <input name="IN1.18" type="date" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 text-sm appearance-none h-[32px]" />
-              </label>
-              <label class="block mb-2">Insured's Address
-                <input name="IN1.19_address" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" placeholder="Street Address" />
-              </label>
-              <label class="block mb-2">Address 2
-                <input name="IN1.19_address2" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" placeholder="Apt, Suite, etc." />
-              </label>
-              <label class="block mb-2">City
-                <input name="IN1.19_city" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">State
-                <input name="IN1.19_state" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Zip Code
-                <input name="IN1.19_zip" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Policy Number
-                <input name="IN1.36" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Insured's Administrative Sex
-                <select name="IN1.43" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 appearance-none bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option value="">Select</option>
-                  <option value="M">Male</option>
-                  <option value="F">Female</option>
-                  <option value="O">Other</option>
-                </select>
-              </label>
-            `;
-            break;
-          case 'guarantorSection':
-            modalTitle.textContent = 'Edit Guarantor';
-            modalContent.innerHTML = `
-              <label class="block mb-2">Guarantor Name
-                <input name="GT1.3" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Guarantor Address
-                <input name="GT1.5_address" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" placeholder="Street Address" />
-              </label>
-              <label class="block mb-2">Address 2
-                <input name="GT1.5_address2" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" placeholder="Apt, Suite, etc." />
-              </label>
-              <label class="block mb-2">City
-                <input name="GT1.5_city" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">State
-                <input name="GT1.5_state" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Zip Code
-                <input name="GT1.5_zip" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-              <label class="block mb-2">Guarantor Phone Number
-                <input name="GT1.6" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2" />
-              </label>
-            `;
-            break;
-        }
-
-        // Show the modal
-        document.getElementById('editModal').classList.remove('hidden');
-
-        // Close modal event
-        closeModalBtn.onclick = function() {
-          document.getElementById('editModal').classList.add('hidden');
-        };
-
-        // Save modal event
-        saveModalBtn.onclick = function() {
-          const inputs = modalContent.querySelectorAll('input, select');
-          inputs.forEach(input => {
-            const displaySpan = document.getElementById('display-' + input.name.replace(/\./g, '').replace(/_/g, ''));
-            if (displaySpan) displaySpan.textContent = input.value;
-          });
-          document.getElementById('editModal').classList.add('hidden');
-        };
-      }
-
-      function saveSection(sectionId) {
-        const section = document.getElementById(sectionId);
-        const inputs = section.querySelectorAll('.section-edit input, .section-edit select');
-        inputs.forEach(input => {
-          const displaySpan = document.getElementById('display-' + input.name.replace(/\./g, '').replace(/_/g, ''));
-          if (displaySpan) displaySpan.textContent = input.value;
         });
-        toggleSectionEdit(sectionId);
+        
+        // Handle order requests (OBR/OBX data)
+        const orderRequestsContainer = document.getElementById('orderRequestsDisplay');
+        if (orderRequestsContainer) {
+          // Clear existing order requests
+          clearOrderRequests();
+          
+          // Find all OBR indices
+          const obrIndices = Array.from(new Set(Object.keys(parsedData)
+            .filter(k => /^OBR\d+_OrderCode$/.test(k))
+            .map(k => k.match(/^OBR(\d+)_OrderCode$/)[1])))
+            .sort((a, b) => Number(a) - Number(b));
+          
+          obrIndices.forEach(idx => {
+            const orderCode = parsedData[`OBR${idx}_OrderCode`] || '';
+            const orderDescription = parsedData[`OBR${idx}_OrderDescription`] || '';
+            
+            // Find all OBX observations for this OBR
+            const obxNums = Object.keys(parsedData)
+              .filter(k => k.startsWith(`OBR${idx}_OBX`) && k.match(new RegExp(`^OBR${idx}_OBX(\\d+)_Question$`)))
+              .map(k => k.match(new RegExp(`^OBR${idx}_OBX(\\d+)_Question$`))[1])
+              .sort((a, b) => Number(a) - Number(b));
+            
+            const observations = obxNums.map(obxNum => ({
+              question: parsedData[`OBR${idx}_OBX${obxNum}_Question`] || '',
+              answer: parsedData[`OBR${idx}_OBX${obxNum}_Answer`] || ''
+            }));
+            
+            // Add the order request to the display
+            addOrderRequest(orderCode, orderDescription, observations);
+          });
+        }
       }
-      </script>
-    <script type="module">
-      import "./src/index.js";
+
+      // Function to add order request display
+      function addOrderRequest(orderCode, orderDescription, observations = []) {
+        const container = document.getElementById('orderRequestsDisplay');
+        
+        if (!container) {
+          console.warn('Order requests container not found');
+          return;
+        }
+        
+        // Remove the "no orders" message if it exists
+        const noOrdersMsg = container.querySelector('.text-gray-500');
+        if (noOrdersMsg) {
+          noOrdersMsg.remove();
+        }
+        
+        const orderDiv = document.createElement('div');
+        orderDiv.className = 'order-request';
+        
+        orderDiv.innerHTML = `
+          <div class="mb-3">
+            <div class="field-group mb-2">
+              <span class="field-label">Order Code</span>
+              <span class="field-value font-semibold">${orderCode || '-'}</span>
+            </div>
+            <div class="field-group">
+              <span class="field-label">Order Description</span>
+              <span class="field-value">${orderDescription || '-'}</span>
+            </div>
+          </div>
+          ${observations.length > 0 ? `
+            <div class="border-t pt-3">
+              <h4 class="font-medium text-gray-800 mb-2">Observations</h4>
+              <div class="space-y-2">
+                ${observations.map(obs => `
+                  <div class="order-observation">
+                    <div class="field-group mb-1">
+                      <span class="field-label">Question</span>
+                      <span class="field-value">${obs.question || '-'}</span>
+                    </div>
+                    <div class="field-group">
+                      <span class="field-label">Answer</span>
+                      <span class="field-value font-medium">${obs.answer || '-'}</span>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+        `;
+        
+        container.appendChild(orderDiv);
+      }
+
+      // Function to clear all order requests
+      function clearOrderRequests() {
+        const container = document.getElementById('orderRequestsDisplay');
+        if (container) {
+          container.innerHTML = '<div class="text-gray-500 italic">No order requests to display</div>';
+        }
+      }
+
+      // Function to format date for display
+      function formatDate(dateString) {
+        if (!dateString) return '-';
+        
+        try {
+          const date = new Date(dateString);
+          return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+        } catch (error) {
+          return dateString;
+        }
+      }
+
+      // Function to format phone number for display
+      function formatPhoneNumber(phoneString) {
+        if (!phoneString) return '-';
+        
+        // Remove all non-digit characters
+        const digits = phoneString.replace(/\D/g, '');
+        
+        // Format as (XXX) XXX-XXXX if 10 digits
+        if (digits.length === 10) {
+          return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+        }
+        
+        return phoneString;
+      }
+
+      // Function to call FileMaker script
+      function callFileMakerScript(scriptName) {
+        try {
+          // Try FileMaker's fmp:// protocol first
+          const fmpUrl = `fmp://$/${scriptName}`;
+          window.location.href = fmpUrl;
+          
+          // Fallback: Try FileMaker's JavaScript API if available
+          if (typeof FileMaker !== 'undefined' && FileMaker.PerformScript) {
+            FileMaker.PerformScript(scriptName);
+          }
+          
+          // Additional fallback: Try custom event for FileMaker WebViewer
+          const event = new CustomEvent('filemakerScript', {
+            detail: { scriptName: scriptName }
+          });
+          window.dispatchEvent(event);
+          
+        } catch (error) {
+          console.error('Error calling FileMaker script:', error);
+          
+          // Fallback alert for testing
+          alert(`FileMaker script "${scriptName}" would be called here. (Error: ${error.message})`);
+        }
+      }
+
+      // Function to load sample data for testing
+      function loadSampleData() {
+        const sampleData = {
+          // Original format with underscores (as expected by the original populateFormFromJSON)
+          'MSH_4': 'AEGIS001',
+          'MSH_7': '2024-01-15T10:30:00',
+          'MSH_10': 'ORD-2024-001',
+          'PID_2': 'PAT-12345',
+          'PID_2_5': 'MR',
+          'PID_5': 'John Doe',
+          'PID_7': '01/15/1980',
+          'PID_8': 'Male',
+          'PID_10': 'Caucasian',
+          'PID_11_address': '123 Main Street',
+          'PID_11_city': 'Anytown',
+          'PID_11_state': 'ST',
+          'PID_11_zip': '12345',
+          'PID_13': '(555) 123-4567',
+          'PID_19': 'XXX-XX-1234',
+          'PID_22': 'Non-Hispanic',
+          'PV1_8': 'Dr. Smith',
+          'OBR_16': 'Dr. Johnson',
+          'OBR_7': '2024-01-15T09:00:00',
+          'OBR_15': 'Urine',
+          'OBR_15_1': 'UR',
+          'DG1_3': 'Z02.89',
+          'IN1_47': 'Direct Bill (C)',
+          // Order Request data
+          'OBR1_OrderCode': 'DRUG-SCREEN-5',
+          'OBR1_OrderDescription': '5-Panel Drug Screen',
+          'OBR1_OBX1_Question': 'Collection method',
+          'OBR1_OBX1_Answer': 'Urine',
+          'OBR1_OBX2_Question': 'Collection date',
+          'OBR1_OBX2_Answer': '01/15/2024',
+          'OBR1_OBX3_Question': 'Reason for test',
+          'OBR1_OBX3_Answer': 'Pre-employment',
+          // Order Request 2
+          'OBR2_OrderCode': 'ALCOHOL-TEST',
+          'OBR2_OrderDescription': 'Alcohol Test',
+          'OBR2_OBX1_Question': 'Test type',
+          'OBR2_OBX1_Answer': 'Breathalyzer',
+          'OBR2_OBX2_Question': 'Test location',
+          'OBR2_OBX2_Answer': 'On-site'
+        };
+        
+        populateFormData(sampleData);
+      }
+
+      // Make functions available globally
+      window.populateFormData = populateFormData;
+      window.populateDisplayData = populateFormData; // Alias for backward compatibility
+      window.addOrderRequest = addOrderRequest;
+      window.addOrderRequestDisplay = addOrderRequest; // Alias for backward compatibility
+      window.clearOrderRequests = clearOrderRequests;
+      window.formatDate = formatDate;
+      window.formatPhoneNumber = formatPhoneNumber;
+      window.loadSampleData = loadSampleData;
+      window.callFileMakerScript = callFileMakerScript;
+
+      // Initialize on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('View-Only Interface loaded successfully');
+        
+        // You can uncomment the line below to load sample data for testing
+        // setTimeout(() => {
+        //   loadSampleData();
+        // }, 100);
+      });
     </script>
   </body>
 </html>

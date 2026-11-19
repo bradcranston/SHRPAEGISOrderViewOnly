@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Enhanced populateDisplayData</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-2xl font-bold mb-6">Test Enhanced populateDisplayData Function</h1>
+        
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-lg font-semibold mb-4">Test Data</h2>
+            <button id="testBasicData" class="bg-blue-500 text-white px-4 py-2 rounded mr-2">Load Basic Data</button>
+            <button id="testOrderData" class="bg-green-500 text-white px-4 py-2 rounded mr-2">Load Order Data</button>
+            <button id="testCompleteData" class="bg-purple-500 text-white px-4 py-2 rounded mr-2">Load Complete Data</button>
+            <button id="clearData" class="bg-red-500 text-white px-4 py-2 rounded">Clear Data</button>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 class="text-lg font-semibold mb-4">Patient Information</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Patient Name:</label>
+                    <div class="bg-gray-50 p-2 rounded" id="display-PID5">-</div>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Date of Birth:</label>
+                    <div class="bg-gray-50 p-2 rounded" id="display-PID7">-</div>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Phone:</label>
+                    <div class="bg-gray-50 p-2 rounded" id="display-PID13">-</div>
+                </div>
+                <div>
+                    <label class="text-sm font-medium text-gray-600">Address:</label>
+                    <div class="bg-gray-50 p-2 rounded" id="display-PID11address">-</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-lg font-semibold mb-4">Order Requests</h2>
+            <div id="orderRequestsDisplay" class="space-y-4">
+                <div class="text-gray-500 italic">No order requests to display</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Mock functions for testing
+        function clearOrderRequests() {
+            const container = document.getElementById('orderRequestsDisplay');
+            if (container) {
+                container.innerHTML = '<div class="text-gray-500 italic">No order requests to display</div>';
+            }
+        }
+        
+        function addOrderRequest(orderCode, orderDescription, observations = []) {
+            const container = document.getElementById('orderRequestsDisplay');
+            
+            if (!container) return;
+            
+            const noOrdersMsg = container.querySelector('.text-gray-500');
+            if (noOrdersMsg) {
+                noOrdersMsg.remove();
+            }
+            
+            const orderDiv = document.createElement('div');
+            orderDiv.className = 'bg-gray-50 rounded-lg p-4 border-l-4 border-blue-500';
+            
+            orderDiv.innerHTML = `
+                <div class="mb-3">
+                    <div class="mb-2">
+                        <span class="text-sm font-medium text-gray-600">Order Code:</span>
+                        <span class="text-lg font-semibold text-gray-900 ml-2">${orderCode || '-'}</span>
+                    </div>
+                    <div>
+                        <span class="text-sm font-medium text-gray-600">Order Description:</span>
+                        <span class="text-lg text-gray-900 ml-2">${orderDescription || '-'}</span>
+                    </div>
+                </div>
+                ${observations.length > 0 ? `
+                    <div class="border-t pt-3">
+                        <h4 class="text-md font-medium text-gray-800 mb-2">Observations</h4>
+                        <div class="space-y-2">
+                            ${observations.map(obs => `
+                                <div class="bg-white rounded p-3 border">
+                                    <div class="mb-1">
+                                        <span class="text-sm font-medium text-gray-600">Question:</span>
+                                        <span class="text-gray-900 ml-2">${obs.question || '-'}</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-sm font-medium text-gray-600">Answer:</span>
+                                        <span class="text-gray-900 font-medium ml-2">${obs.answer || '-'}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+            `;
+            
+            container.appendChild(orderDiv);
+        }
+        
+        // Enhanced populateDisplayData function
+        function populateDisplayData(data) {
+            const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
+            if (!parsedData || typeof parsedData !== 'object') return;
+            
+            // Populate display spans for all basic fields
+            Object.keys(parsedData).forEach(key => {
+                // Skip OBR/OBX fields as they are handled separately
+                if (key.startsWith('OBR') && (key.includes('_OrderCode') || key.includes('_OrderDescription') || key.includes('_OBX'))) {
+                    return;
+                }
+                
+                const element = document.getElementById(`display-${key}`);
+                if (element) {
+                    element.textContent = parsedData[key] || '-';
+                }
+            });
+            
+            // Handle order requests (OBR/OBX data)
+            const orderRequestsContainer = document.getElementById('orderRequestsDisplay');
+            if (orderRequestsContainer) {
+                // Clear existing order requests
+                clearOrderRequests();
+                
+                // Find all OBR indices
+                const obrIndices = Array.from(new Set(Object.keys(parsedData)
+                    .filter(k => /^OBR\\d+_OrderCode$/.test(k))
+                    .map(k => k.match(/^OBR(\\d+)_OrderCode$/)[1])))
+                    .sort((a, b) => Number(a) - Number(b));
+                
+                obrIndices.forEach(idx => {
+                    const orderCode = parsedData[`OBR${idx}_OrderCode`] || '';
+                    const orderDescription = parsedData[`OBR${idx}_OrderDescription`] || '';
+                    
+                    // Find all OBX observations for this OBR
+                    const obxNums = Object.keys(parsedData)
+                        .filter(k => k.startsWith(`OBR${idx}_OBX`) && k.match(new RegExp(`^OBR${idx}_OBX(\\\\d+)_Question$`)))
+                        .map(k => k.match(new RegExp(`^OBR${idx}_OBX(\\\\d+)_Question$`))[1])
+                        .sort((a, b) => Number(a) - Number(b));
+                    
+                    const observations = obxNums.map(obxNum => ({
+                        question: parsedData[`OBR${idx}_OBX${obxNum}_Question`] || '',
+                        answer: parsedData[`OBR${idx}_OBX${obxNum}_Answer`] || ''
+                    }));
+                    
+                    // Add the order request to the display
+                    addOrderRequest(orderCode, orderDescription, observations);
+                });
+            }
+        }
+        
+        // Test data sets
+        const basicData = {
+            'PID5': 'John Doe',
+            'PID7': '01/15/1980',
+            'PID13': '(555) 123-4567',
+            'PID11address': '123 Main Street'
+        };
+        
+        const orderData = {
+            'OBR1_OrderCode': 'DRUG-SCREEN-5',
+            'OBR1_OrderDescription': '5-Panel Drug Screen',
+            'OBR1_OBX1_Question': 'Collection method',
+            'OBR1_OBX1_Answer': 'Urine',
+            'OBR1_OBX2_Question': 'Collection date',
+            'OBR1_OBX2_Answer': '01/15/2024'
+        };
+        
+        const completeData = {
+            ...basicData,
+            ...orderData,
+            'OBR2_OrderCode': 'ALCOHOL-TEST',
+            'OBR2_OrderDescription': 'Alcohol Test',
+            'OBR2_OBX1_Question': 'Test type',
+            'OBR2_OBX1_Answer': 'Breathalyzer'
+        };
+        
+        // Event listeners
+        document.getElementById('testBasicData').addEventListener('click', () => {
+            populateDisplayData(basicData);
+        });
+        
+        document.getElementById('testOrderData').addEventListener('click', () => {
+            populateDisplayData(orderData);
+        });
+        
+        document.getElementById('testCompleteData').addEventListener('click', () => {
+            populateDisplayData(completeData);
+        });
+        
+        document.getElementById('clearData').addEventListener('click', () => {
+            // Clear all display fields
+            document.querySelectorAll('[id^="display-"]').forEach(el => {
+                el.textContent = '-';
+            });
+            clearOrderRequests();
+        });
+    </script>
+</body>
+</html>

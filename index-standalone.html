@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drug Test Order - View Only</title>YPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Drug Test Order - View Only (Standalone)</title>
+    <style>
+      /* View-Only Interface Styles */
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-family: 'Arial', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #1f2937;
+        background-color: #f9fafb;
+        margin: 0;
+        overflow-x: hidden;
+      }
+
+      /* Enhanced typography for better readability */
+      p {
+        color: #374151;
+        font-size: 16px;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+        color: #fff;
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 1.2;
+        margin: 0 0 24px;
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+      }
+
+      h2 {
+        color: #1f2937;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 1.3;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #e5e7eb;
+      }
+
+      /* Section styling for better visual hierarchy */
+      .section-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+        margin-bottom: 24px;
+        border: 1px solid #e5e7eb;
+        transition: box-shadow 0.3s ease;
+      }
+
+      .section-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      /* Data display improvements */
+      .data-field {
+        margin-bottom: 16px;
+      }
+
+      .data-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        color: #6b7280;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+      }
+
+      .data-value {
+        display: block;
+        font-size: 16px;
+        font-weight: 400;
+        color: #1f2937;
+        background-color: #f9fafb;
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        min-height: 24px;
+        word-wrap: break-word;
+      }
+
+      /* Order requests specific styling */
+      .order-request {
+        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        border-left: 4px solid #3b82f6;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .order-observation {
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 6px;
+        padding: 16px;
+        margin-bottom: 12px;
+      }
+
+      /* Done button styling */
+      .done-button {
+        background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 16px 32px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 6px rgba(16, 185, 129, 0.25);
+        min-width: 120px;
+      }
+
+      .done-button:hover {
+        background: linear-gradient(135deg, #047857 0%, #059669 100%);
+        box-shadow: 0 6px 12px rgba(16, 185, 129, 0.35);
+        transform: translateY(-2px);
+      }
+
+      .done-button:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(16, 185, 129, 0.25);
+      }
+
+      .done-button:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      /* Responsive grid improvements */
+      @media (max-width: 768px) {
+        .grid {
+          grid-template-columns: 1fr !important;
+        }
+        
+        h1 {
+          font-size: 24px;
+          padding: 16px;
+        }
+        
+        .section-card {
+          padding: 16px;
+          margin-bottom: 16px;
+        }
+      }
+
+      /* Print styles for better document printing */
+      @media print {
+        body {
+          background-color: #fff;
+          color: #000;
+        }
+        
+        .section-card {
+          box-shadow: none;
+          border: 1px solid #ccc;
+          page-break-inside: avoid;
+        }
+        
+        h1 {
+          background: #000;
+          color: #fff;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen">
+    <div class="max-w-4xl mx-auto p-6">
+      <h1 class="text-3xl font-bold mb-6 text-center text-blue-800">Aegis Drug Test Order - View Only</h1>
+      <div class="space-y-6">
+        <!-- Aegis Lab Information Section -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Aegis Lab Information</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-3">
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Client ID</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-MSH4">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Date and Time</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-MSH7">-</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Order Number</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-MSH10">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Patient Information Section -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Patient Information</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="space-y-3">
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Patient ID</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-PID2">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Patient Name</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-PID5">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Date of Birth</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-PID7">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Sex</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-PID8">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Race</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-PID10">-</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Address</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-PID11address">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Address 2</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-PID11address2">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">City</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-PID11city">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">State</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-PID11state">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Zip Code</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-PID11zip">-</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Phone Number</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-PID13">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">SSN</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-PID19">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Ethnic Group</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-PID22">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Patient ID Type</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-PID25">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Provider & Billing Section -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Provider & Billing Information</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-3">
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Referring Doctor</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-PV18">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Ordering Provider</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-OBR16">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Collection Date/Time</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-OBR7">-</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Specimen Source</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-OBR15">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Specimen Matrix Code</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-OBR151">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Bill/Diagnosis Code</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-DG13">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Bill Type</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN147">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Insurance Section -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Insurance Information</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="space-y-3">
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Company ID</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN13">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Company Name</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN14">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Company Address</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN15address">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Address 2</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN15address2">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">City</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN15city">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">State</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN15state">-</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Zip Code</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN15zip">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Insured Name</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN116">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Relationship to Patient</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN117">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Insured's DOB</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN118">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Insured's Address</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN119address">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Address 2</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN119address2">-</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">City</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN119city">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">State</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN119state">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Zip Code</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN119zip">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Policy Number</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN136">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Insured's Sex</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-IN143">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guarantor Section -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Guarantor Information</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-3">
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Name</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-GT13">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Address</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-GT15address">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Address 2</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-GT15address2">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">City</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-GT15city">-</span>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">State</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-GT15state">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Zip Code</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-GT15zip">-</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-sm font-medium text-gray-600">Phone Number</span>
+                <span class="text-lg text-gray-900 bg-gray-50 px-3 py-2 rounded" id="display-GT16">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Requests Section -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">Order Requests</h2>
+          <div id="orderRequestsDisplay" class="space-y-4">
+            <div class="text-gray-500 italic">No order requests to display</div>
+          </div>
+        </div>
+
+        <!-- Done Button Section -->
+        <div class="bg-white rounded-lg shadow-md p-6 text-center">
+          <button 
+            id="doneButton" 
+            class="done-button"
+            onclick="callFileMakerScript('CloseLabOrder')"
+            type="button"
+          >
+            Done
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- All JavaScript inline for standalone functionality -->
+    <script>
+      // View-Only Interface JavaScript
+      // This provides all functionality inline without external dependencies
+
+      // Function to populate form data (for external use)
+      function populateFormData(data) {
+        const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
+        if (!parsedData || typeof parsedData !== 'object') return;
+        
+        // Enhanced field mapping function to handle multiple formats
+        function findValueForField(data, fieldName) {
+          // Try multiple key formats for better compatibility
+          const possibleKeys = [
+            fieldName, // exact match
+            fieldName.replace(/_/g, '.'), // convert underscores to dots
+            fieldName.replace(/\./g, '_'), // convert dots to underscores
+            fieldName.replace(/\./g, ''), // remove dots
+            fieldName.replace(/_/g, ''), // remove underscores
+          ];
+          
+          for (const key of possibleKeys) {
+            if (Object.prototype.hasOwnProperty.call(data, key)) {
+              return data[key];
+            }
+          }
+          
+          return undefined;
+        }
+        
+        // Field mapping from original format to display element IDs
+        const fieldMapping = {
+          // Aegis Lab Information
+          'MSH_4': 'MSH4',
+          'MSH_7': 'MSH7', 
+          'MSH_10': 'MSH10',
+          // Patient Information
+          'PID_2': 'PID2',
+          'PID_2_5': 'PID25',
+          'PID_5': 'PID5',
+          'PID_7': 'PID7',
+          'PID_8': 'PID8',
+          'PID_10': 'PID10',
+          'PID_11_address': 'PID11address',
+          'PID_11_address2': 'PID11address2',
+          'PID_11_city': 'PID11city',
+          'PID_11_state': 'PID11state',
+          'PID_11_zip': 'PID11zip',
+          'PID_13': 'PID13',
+          'PID_19': 'PID19',
+          'PID_22': 'PID22',
+          // Provider Information
+          'PV1_8': 'PV18',
+          'OBR_16': 'OBR16',
+          'OBR_7': 'OBR7',
+          'OBR_15': 'OBR15',
+          'OBR_15_1': 'OBR151',
+          'DG1_3': 'DG13',
+          'IN1_47': 'IN147',
+          // Insurance Information
+          'IN1_3': 'IN13',
+          'IN1_4': 'IN14',
+          'IN1_5_address': 'IN15address',
+          'IN1_5_address2': 'IN15address2',
+          'IN1_5_city': 'IN15city',
+          'IN1_5_state': 'IN15state',
+          'IN1_5_zip': 'IN15zip',
+          'IN1_16': 'IN116',
+          'IN1_17': 'IN117',
+          'IN1_18': 'IN118',
+          'IN1_19_address': 'IN119address',
+          'IN1_19_address2': 'IN119address2',
+          'IN1_19_city': 'IN119city',
+          'IN1_19_state': 'IN119state',
+          'IN1_19_zip': 'IN119zip',
+          'IN1_36': 'IN136',
+          'IN1_43': 'IN143',
+          // Guarantor Information
+          'GT1_3': 'GT13',
+          'GT1_5_address': 'GT15address',
+          'GT1_5_address2': 'GT15address2',
+          'GT1_5_city': 'GT15city',
+          'GT1_5_state': 'GT15state',
+          'GT1_5_zip': 'GT15zip',
+          'GT1_6': 'GT16',
+        };
+        
+        // First, try to populate using the field mapping
+        Object.keys(fieldMapping).forEach(originalKey => {
+          const displayId = fieldMapping[originalKey];
+          const element = document.getElementById(`display-${displayId}`);
+          if (element) {
+            const value = findValueForField(parsedData, originalKey);
+            if (value !== undefined) {
+              element.textContent = value;
+            }
+          }
+        });
+        
+        // Then, try to populate any remaining fields using direct key matching
+        Object.keys(parsedData).forEach(key => {
+          // Skip OBR/OBX fields as they are handled separately
+          if (key.startsWith('OBR') && (key.includes('_OrderCode') || key.includes('_OrderDescription') || key.includes('_OBX'))) {
+            return;
+          }
+          
+          const element = document.getElementById(`display-${key}`);
+          if (element) {
+            element.textContent = parsedData[key] || '-';
+          }
+        });
+        
+        // Handle order requests (OBR/OBX data)
+        const orderRequestsContainer = document.getElementById('orderRequestsDisplay');
+        if (orderRequestsContainer) {
+          // Clear existing order requests
+          clearOrderRequests();
+          
+          // Find all OBR indices
+          const obrIndices = Array.from(new Set(Object.keys(parsedData)
+            .filter(k => /^OBR\d+_OrderCode$/.test(k))
+            .map(k => k.match(/^OBR(\d+)_OrderCode$/)[1])))
+            .sort((a, b) => Number(a) - Number(b));
+          
+          obrIndices.forEach(idx => {
+            const orderCode = parsedData[`OBR${idx}_OrderCode`] || '';
+            const orderDescription = parsedData[`OBR${idx}_OrderDescription`] || '';
+            
+            // Find all OBX observations for this OBR
+            const obxNums = Object.keys(parsedData)
+              .filter(k => k.startsWith(`OBR${idx}_OBX`) && k.match(new RegExp(`^OBR${idx}_OBX(\\d+)_Question$`)))
+              .map(k => k.match(new RegExp(`^OBR${idx}_OBX(\\d+)_Question$`))[1])
+              .sort((a, b) => Number(a) - Number(b));
+            
+            const observations = obxNums.map(obxNum => ({
+              question: parsedData[`OBR${idx}_OBX${obxNum}_Question`] || '',
+              answer: parsedData[`OBR${idx}_OBX${obxNum}_Answer`] || ''
+            }));
+            
+            // Add the order request to the display
+            addOrderRequest(orderCode, orderDescription, observations);
+          });
+        }
+      }
+
+      // Function to add order request display
+      function addOrderRequest(orderCode, orderDescription, observations = []) {
+        const container = document.getElementById('orderRequestsDisplay');
+        
+        if (!container) {
+          console.warn('Order requests container not found');
+          return;
+        }
+        
+        // Remove the "no orders" message if it exists
+        const noOrdersMsg = container.querySelector('.text-gray-500');
+        if (noOrdersMsg) {
+          noOrdersMsg.remove();
+        }
+        
+        const orderDiv = document.createElement('div');
+        orderDiv.className = 'bg-gray-50 rounded-lg p-4 border-l-4 border-blue-500';
+        
+        orderDiv.innerHTML = `
+          <div class="mb-3">
+            <div class="flex flex-col mb-2">
+              <span class="text-sm font-medium text-gray-600">Order Code</span>
+              <span class="text-lg font-semibold text-gray-900">${orderCode || '-'}</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-sm font-medium text-gray-600">Order Description</span>
+              <span class="text-lg text-gray-900">${orderDescription || '-'}</span>
+            </div>
+          </div>
+          ${observations.length > 0 ? `
+            <div class="border-t pt-3">
+              <h4 class="text-md font-medium text-gray-800 mb-2">Observations</h4>
+              <div class="space-y-2">
+                ${observations.map(obs => `
+                  <div class="bg-white rounded p-3 border">
+                    <div class="flex flex-col mb-1">
+                      <span class="text-sm font-medium text-gray-600">Question</span>
+                      <span class="text-gray-900">${obs.question || '-'}</span>
+                    </div>
+                    <div class="flex flex-col">
+                      <span class="text-sm font-medium text-gray-600">Answer</span>
+                      <span class="text-gray-900 font-medium">${obs.answer || '-'}</span>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+        `;
+        
+        container.appendChild(orderDiv);
+      }
+
+      // Function to clear all order requests
+      function clearOrderRequests() {
+        const container = document.getElementById('orderRequestsDisplay');
+        if (container) {
+          container.innerHTML = '<div class="text-gray-500 italic">No order requests to display</div>';
+        }
+      }
+
+      // Function to format date for display
+      function formatDate(dateString) {
+        if (!dateString) return '-';
+        
+        try {
+          const date = new Date(dateString);
+          return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+        } catch (error) {
+          return dateString;
+        }
+      }
+
+      // Function to format phone number for display
+      function formatPhoneNumber(phoneString) {
+        if (!phoneString) return '-';
+        
+        // Remove all non-digit characters
+        const digits = phoneString.replace(/\D/g, '');
+        
+        // Format as (XXX) XXX-XXXX if 10 digits
+        if (digits.length === 10) {
+          return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+        }
+        
+        return phoneString;
+      }
+
+      // Function to call FileMaker script
+      function callFileMakerScript(scriptName) {
+        try {
+          // Try FileMaker's fmp:// protocol first
+          const fmpUrl = `fmp://$/${scriptName}`;
+          window.location.href = fmpUrl;
+          
+          // Fallback: Try FileMaker's JavaScript API if available
+          if (typeof FileMaker !== 'undefined' && FileMaker.PerformScript) {
+            FileMaker.PerformScript(scriptName);
+          }
+          
+          // Additional fallback: Try custom event for FileMaker WebViewer
+          const event = new CustomEvent('filemakerScript', {
+            detail: { scriptName: scriptName }
+          });
+          window.dispatchEvent(event);
+          
+        } catch (error) {
+          console.error('Error calling FileMaker script:', error);
+          
+          // Fallback alert for testing
+          alert(`FileMaker script "${scriptName}" would be called here. (Error: ${error.message})`);
+        }
+      }
+
+      // Function to load sample data for testing
+      function loadSampleData() {
+        const sampleData = {
+          'MSH4': 'AEGIS001',
+          'MSH7': formatDate('2024-01-15T10:30:00'),
+          'MSH10': 'ORD-2024-001',
+          'PID2': 'PAT-12345',
+          'PID25': 'MR',
+          'PID5': 'John Doe',
+          'PID7': '01/15/1980',
+          'PID8': 'Male',
+          'PID10': 'Caucasian',
+          'PID11address': '123 Main Street',
+          'PID11city': 'Anytown',
+          'PID11state': 'ST',
+          'PID11zip': '12345',
+          'PID13': formatPhoneNumber('5551234567'),
+          'PID19': 'XXX-XX-1234',
+          'PID22': 'Non-Hispanic',
+          'PV18': 'Dr. Smith',
+          'OBR16': 'Dr. Johnson',
+          'OBR7': formatDate('2024-01-15T09:00:00'),
+          'OBR15': 'Urine',
+          'OBR151': 'UR',
+          'DG13': 'Z02.89',
+          'IN147': 'Direct Bill (C)',
+          // Order Request 1
+          'OBR1_OrderCode': 'DRUG-SCREEN-5',
+          'OBR1_OrderDescription': '5-Panel Drug Screen',
+          'OBR1_OBX1_Question': 'Collection method',
+          'OBR1_OBX1_Answer': 'Urine',
+          'OBR1_OBX2_Question': 'Collection date',
+          'OBR1_OBX2_Answer': '01/15/2024',
+          'OBR1_OBX3_Question': 'Reason for test',
+          'OBR1_OBX3_Answer': 'Pre-employment',
+          // Order Request 2
+          'OBR2_OrderCode': 'ALCOHOL-TEST',
+          'OBR2_OrderDescription': 'Alcohol Test',
+          'OBR2_OBX1_Question': 'Test type',
+          'OBR2_OBX1_Answer': 'Breathalyzer',
+          'OBR2_OBX2_Question': 'Test location',
+          'OBR2_OBX2_Answer': 'On-site'
+        };
+        
+        populateFormData(sampleData);
+      }
+
+      // Make functions available globally
+      window.populateFormData = populateFormData;
+      window.populateDisplayData = populateFormData; // Alias for backward compatibility
+      window.addOrderRequest = addOrderRequest;
+      window.addOrderRequestDisplay = addOrderRequest; // Alias for backward compatibility
+      window.clearOrderRequests = clearOrderRequests;
+      window.formatDate = formatDate;
+      window.formatPhoneNumber = formatPhoneNumber;
+      window.loadSampleData = loadSampleData;
+      window.callFileMakerScript = callFileMakerScript;
+
+      // Initialize on page load
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('View-Only Interface loaded successfully');
+        
+        // You can uncomment the line below to load sample data for testing
+        // loadSampleData();
+      });
+    </script>
+  </body>
+</html>
